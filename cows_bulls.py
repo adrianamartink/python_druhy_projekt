@@ -9,22 +9,37 @@ import time
 
 
 def generate_four_digit_number():
-    return str(random.randint(1000, 9999))
+    while True:
+        digits = list('0123456789')
+        random.shuffle(digits)
+
+        composed_digits = ''.join(digits[:4])
+
+        if 1000 <= int(composed_digits) <= 9999:
+            return composed_digits
 
 
 def get_user_input():
     while True:
-        user_input = input("Enter a number: ")
-        # checking whether the input can be casted to int
-        try:
-            user_input_int = int(user_input)
-            if user_input_int >= 1000 and user_input_int <= 9999:
-                return user_input
-            else:
-                raise
-        except:
-            print("Invalid input, insert number between 1000 and 9999")
+        user_input = input("Enter a 4-digit number with unique digits (not starting with 0): ")
+        
+        if not user_input.isdigit():
+            print("Invalid input: not a number.")
+            continue
 
+        if len(user_input) != 4:
+            print("Invalid input: must be exactly 4 digits.")
+            continue
+
+        if user_input[0] == '0':
+            print("Invalid input: number cannot start with 0.")
+            continue
+
+        if len(set(user_input)) != 4:
+            print("Invalid input: digits must be unique.")
+            continue
+
+        return user_input
 
 def get_cows(secret_str, user_str):
     number_of_cows = 0
